@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スロットマシン</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, pink, white);
+            margin: 0;
+            padding: 0;
+        }
+        .bonus-banner {
+            width: 100%;
+            height: 70px;
+            background: yellow;
+            color: red;
+            text-align: center;
+            font-size: 2rem;
+            line-height: 70px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .decorations {
+            position: absolute;
+            top: 10px;
+            font-size: 2rem;
+            animation: float 2s infinite ease-in-out;
+        }
+        .decorations-left {
+            left: 10px;
+        }
+        .decorations-right {
+            right: 10px;
+        }
+        .machine {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 500px;
+            background-color: #40E0D0;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+        }
+        .reel-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .reel {
+            width: 30%;
+            height: 200px;
+            background-color: black;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .symbols {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        .symbol {
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            font-size: 1.8rem;
+            color: white;
+            background-color: #000;
+        }
+        .start-lever {
+            width: 50px;
+            height: 120px;
+            background-color: #000;
+            border-radius: 25px;
+            position: absolute;
+            bottom: 80px;
+            left: -70px;
+            cursor: pointer;
+            box-shadow: 0 6px 8px #333;
+        }
+        .start-lever:hover {
+            background-color: #444;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .stop-button {
+            flex: 1;
+            height: 50px;
+            background-color: #555;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .stop-button:hover {
+            background-color: #777;
+        }
+        .coin-display {
+            width: 100%;
+            height: 50px;
+            background: #40E0D0;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 50px;
+            margin-top: 20px;
+            border-radius: 15px;
+        }
+        .coin-animation {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .coin {
+            font-size: 2rem;
+            animation: bounce 1.5s infinite ease-in-out alternate;
+        }
+        .star-animation {
+            position: fixed;
+            bottom: 70px;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            color: gold;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        /* アニメーション */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* スマホ対応 */
+        @media (max-width: 600px) {
+            .bonus-banner {
+                font-size: 1.5rem;
+                line-height: 50px;
+                height: 50px;
+            }
+            .machine {
+                padding: 15px;
+            }
+            .start-lever {
+                width: 40px;
+                height: 100px;
+                bottom: 50px;
+                left: -60px;
+            }
+            .reel {
+                height: 160px;
+            }
+            .symbol {
+                height: 60px;
+                line-height: 60px;
+                font-size: 1.5rem;
+            }
+            .coin-display {
+                height: 40px;
+                font-size: 1.2rem;
+                line-height: 40px;
+            }
+            .stop-button {
+                height: 40px;
+                font-size: 0.8rem;
+            }
+            .coin {
+                font-size: 1.8rem;
+            }
+            .star-animation {
+                font-size: 1.8rem;
+                bottom: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bonus-banner">
+        🎉 BONUS TIME 🎉
+        <div class="decorations decorations-left">🤡🎈</div>
+        <div class="decorations decorations-right">🎈🤡</div>
+    </div>
+    <div class="machine">
+        <div class="reel-container">
+            <div class="reel" id="reel1">
+                <div class="symbols" id="symbols1"></div>
+            </div>
+            <div class="reel" id="reel2">
+                <div class="symbols" id="symbols2"></div>
+            </div>
+            <div class="reel" id="reel3">
+                <div class="symbols" id="symbols3"></div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="stop-button" id="stopButton1"></button>
+            <button class="stop-button" id="stopButton2"></button>
+            <button class="stop-button" id="stopButton3"></button>
+        </div>
+        <div class="start-lever" id="startLever"></div>
+    </div>
+    <div class="coin-display">💰 Coins 💰</div>
+    <div class="star-animation">⭐✨🌟</div>
+    <div class="coin-animation">
+        <div class="coin">💰</div>
+        <div class="coin">💰</div>
+        <div class="coin">💰</div>
+    </div>
+    <script>
+        const symbols = ["🍒", "🍋", "🍊", "🍉", "🍇", "🍓", "🔔", "💎"];
+        const spinning = [false, false, false];
+        const symbolHeight = 80;
+        const reelLength = symbols.length;
+
+        for (let i = 0; i < 3; i++) {
+            const reel = document.getElementById(`symbols${i + 1}`);
+            const reelSymbols = [...symbols, ...symbols];
+            for (let j = 0; j < reelSymbols.length; j++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'symbol';
+                symbol.textContent = reelSymbols[j];
+                reel.appendChild(symbol);
+            }
+        }
+
+        document.getElementById('startLever').addEventListener('click', () => {
+            spinning.fill(true);
+            startSpin(0);
+            startSpin(1);
+            startSpin(2);
+        });
+
+        document.getElementById('stopButton1').addEventListener('click', () => stopSpin(0));
+        document.getElementById('stopButton2').addEventListener('click', () => stopSpin(1));
+        document.getElementById('stopButton3').addEventListener('click', () => stopSpin(2));
+
+        function startSpin(reelIndex) {
+            const reel = document.getElementById(`symbols${reelIndex + 1}`);
+            reel.style.transition = "none";
+            reel.style.top = "0px";
+            spin(reelIndex);
+        }
+
+        function spin(reelIndex) {
+            if (spinning[reelIndex]) {
+                const reel = document.getElementById(`symbols${reelIndex + 1}`);
+                let top = parseInt(reel.style.top || "0");
+                top -= symbolHeight;
+                if (top <= -symbolHeight * reelLength) {
+                    top = 0;
+                }
+                reel.style.top = `${top}px`;
+                setTimeout(() => spin(reelIndex), 50);
+            }
+        }
+
+        function stopSpin(reelIndex) {
+            spinning[reelIndex] = false;
+            const reel = document.getElementById(`symbols${reelIndex + 1}`);
+            const top = parseInt(reel.style.top);
+            const stopPosition = Math.abs(top) % symbolHeight;
+            reel.style.transition = "top 0.3s ease-out";
+            reel.style.top = `${top - stopPosition}px`;
+        }
+    </script>
+</body>
+</html>
