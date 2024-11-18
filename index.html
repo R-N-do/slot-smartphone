@@ -24,6 +24,27 @@
             font-weight: bold;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .decorations {
+            position: absolute;
+            top: 10px;
+            font-size: 2rem;
+            animation: float 2s infinite ease-in-out;
+        }
+        .decorations-left {
+            left: 10px;
+        }
+        .decorations-right {
+            right: 10px;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
         .machine {
             margin: 20px auto;
@@ -43,7 +64,7 @@
         .reel {
             width: 30%;
             height: 200px;
-            background-color: #333; /* 背景色を暗いグレーに変更 */
+            background-color: #333;
             border-radius: 10px;
             overflow: hidden;
             position: relative;
@@ -59,7 +80,7 @@
             text-align: center;
             font-size: 1.8rem;
             color: white;
-            background-color: #444; /* シンボル背景を明るいグレーに */
+            background-color: #444;
         }
         .start-lever {
             width: 80%;
@@ -68,10 +89,6 @@
             background-color: #000;
             border-radius: 10px;
             margin: 20px auto 0;
-            text-align: center;
-            line-height: 50px;
-            font-size: 1.5rem;
-            color: white;
             cursor: pointer;
             box-shadow: 0 4px 6px #333;
         }
@@ -90,9 +107,6 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
-            color: white;
-            font-weight: bold;
         }
         .stop-button:hover {
             background-color: #ff6666;
@@ -125,18 +139,19 @@
             }
             .stop-button {
                 height: 40px;
-                font-size: 0.8rem;
             }
             .start-lever {
                 height: 40px;
-                line-height: 40px;
-                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bonus-banner">🎉 BONUS TIME 🎉</div>
+    <div class="bonus-banner">
+        🎉 BONUS TIME 🎉
+        <div class="decorations decorations-left">🤡🎈</div>
+        <div class="decorations decorations-right">🎈🤡</div>
+    </div>
     <div class="machine">
         <div class="reel-container">
             <div class="reel" id="reel1">
@@ -150,12 +165,12 @@
             </div>
         </div>
         <div class="controls">
-            <button class="stop-button" id="stopButton1">STOP 1</button>
-            <button class="stop-button" id="stopButton2">STOP 2</button>
-            <button class="stop-button" id="stopButton3">STOP 3</button>
+            <button class="stop-button" id="stopButton1"></button>
+            <button class="stop-button" id="stopButton2"></button>
+            <button class="stop-button" id="stopButton3"></button>
         </div>
         <div class="coin-display">💰 Coins 💰</div>
-        <div class="start-lever" id="startLever">START</div>
+        <div class="start-lever" id="startLever"></div>
     </div>
     <script>
         const symbols = ["🍒", "🍋", "🍊", "🍉", "🍇", "🍓", "🔔", "💎"];
@@ -217,4 +232,5 @@
     </script>
 </body>
 </html>
+
 
