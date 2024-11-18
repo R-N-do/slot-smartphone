@@ -11,6 +11,7 @@
             background: linear-gradient(to bottom, pink, white);
             margin: 0;
             padding: 0;
+            height: 100vh;
         }
         .bonus-banner {
             width: 100%;
@@ -31,7 +32,7 @@
             background-color: #40E0D0;
             border-radius: 15px;
             padding: 20px;
-            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
         .reel-container {
             display: flex;
@@ -42,9 +43,10 @@
         .reel {
             width: 30%;
             height: 200px;
-            background-color: black;
+            background-color: #333; /* 背景色を暗いグレーに変更 */
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
         }
         .symbols {
             position: absolute;
@@ -57,7 +59,7 @@
             text-align: center;
             font-size: 1.8rem;
             color: white;
-            background-color: #000;
+            background-color: #444; /* シンボル背景を明るいグレーに */
         }
         .start-lever {
             width: 80%;
