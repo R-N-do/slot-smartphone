@@ -23,19 +23,6 @@
             font-weight: bold;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-        .decorations {
-            position: absolute;
-            top: 10px;
-            font-size: 2rem;
-            animation: float 2s infinite ease-in-out;
-        }
-        .decorations-left {
-            left: 10px;
-        }
-        .decorations-right {
-            right: 10px;
         }
         .machine {
             margin: 20px auto;
@@ -50,7 +37,7 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .reel {
             width: 30%;
@@ -58,7 +45,6 @@
             background-color: black;
             border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
         .symbols {
             position: absolute;
@@ -74,15 +60,17 @@
             background-color: #000;
         }
         .start-lever {
-            width: 50px;
-            height: 120px;
+            width: 100%;
+            height: 50px;
             background-color: #000;
-            border-radius: 25px;
-            position: absolute;
-            bottom: 80px;
-            left: -70px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1.5rem;
+            color: white;
             cursor: pointer;
-            box-shadow: 0 6px 8px #333;
+            box-shadow: 0 4px 6px #333;
         }
         .start-lever:hover {
             background-color: #444;
@@ -91,7 +79,6 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            margin-top: 20px;
         }
         .stop-button {
             flex: 1;
@@ -116,70 +103,8 @@
             margin-top: 20px;
             border-radius: 15px;
         }
-        .coin-animation {
-            position: fixed;
-            bottom: 30px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .coin {
-            font-size: 2rem;
-            animation: bounce 1.5s infinite ease-in-out alternate;
-        }
-        .star-animation {
-            position: fixed;
-            bottom: 70px;
-            width: 100%;
-            text-align: center;
-            font-size: 2rem;
-            color: gold;
-            animation: twinkle 2s infinite ease-in-out;
-        }
-
-        /* アニメーション */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
         /* スマホ対応 */
         @media (max-width: 600px) {
-            .bonus-banner {
-                font-size: 1.5rem;
-                line-height: 50px;
-                height: 50px;
-            }
-            .machine {
-                padding: 15px;
-            }
-            .start-lever {
-                width: 40px;
-                height: 100px;
-                bottom: 50px;
-                left: -60px;
-            }
             .reel {
                 height: 160px;
             }
@@ -197,22 +122,16 @@
                 height: 40px;
                 font-size: 0.8rem;
             }
-            .coin {
-                font-size: 1.8rem;
-            }
-            .star-animation {
-                font-size: 1.8rem;
-                bottom: 50px;
+            .start-lever {
+                height: 40px;
+                line-height: 40px;
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bonus-banner">
-        🎉 BONUS TIME 🎉
-        <div class="decorations decorations-left">🤡🎈</div>
-        <div class="decorations decorations-right">🎈🤡</div>
-    </div>
+    <div class="bonus-banner">🎉 BONUS TIME 🎉</div>
     <div class="machine">
         <div class="reel-container">
             <div class="reel" id="reel1">
@@ -226,25 +145,20 @@
             </div>
         </div>
         <div class="controls">
-            <button class="stop-button" id="stopButton1"></button>
-            <button class="stop-button" id="stopButton2"></button>
-            <button class="stop-button" id="stopButton3"></button>
+            <button class="stop-button" id="stopButton1">STOP 1</button>
+            <button class="stop-button" id="stopButton2">STOP 2</button>
+            <button class="stop-button" id="stopButton3">STOP 3</button>
         </div>
-        <div class="start-lever" id="startLever"></div>
+        <div class="start-lever" id="startLever">START</div>
     </div>
     <div class="coin-display">💰 Coins 💰</div>
-    <div class="star-animation">⭐✨🌟</div>
-    <div class="coin-animation">
-        <div class="coin">💰</div>
-        <div class="coin">💰</div>
-        <div class="coin">💰</div>
-    </div>
     <script>
         const symbols = ["🍒", "🍋", "🍊", "🍉", "🍇", "🍓", "🔔", "💎"];
         const spinning = [false, false, false];
         const symbolHeight = 80;
         const reelLength = symbols.length;
 
+        // リールの初期化
         for (let i = 0; i < 3; i++) {
             const reel = document.getElementById(`symbols${i + 1}`);
             const reelSymbols = [...symbols, ...symbols];
@@ -298,3 +212,4 @@
     </script>
 </body>
 </html>
+
