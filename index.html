@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
+            overflow: hidden;
         }
         .bonus-banner {
             width: 100%;
@@ -122,6 +123,62 @@
             margin-top: 20px;
             border-radius: 15px;
         }
+        .bottom-decorations {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+        .coin-animation {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            animation: moveCoins 5s infinite;
+        }
+        .coin {
+            font-size: 2rem;
+            animation: bounce 1.5s infinite ease-in-out alternate;
+        }
+        @keyframes moveCoins {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        .star-animation {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            text-align: center;
+            animation: twinkle 2s infinite;
+        }
+        .star {
+            font-size: 2rem;
+            color: gold;
+            margin: 0 10px;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
         /* スマホ対応 */
         @media (max-width: 600px) {
             .reel {
@@ -142,6 +199,12 @@
             }
             .start-lever {
                 height: 40px;
+            }
+            .coin {
+                font-size: 1.5rem;
+            }
+            .star {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -172,65 +235,17 @@
         <div class="coin-display">💰 Coins 💰</div>
         <div class="start-lever" id="startLever"></div>
     </div>
-    <script>
-        const symbols = ["🍒", "🍋", "🍊", "🍉", "🍇", "🍓", "🔔", "💎"];
-        const spinning = [false, false, false];
-        const symbolHeight = 80;
-        const reelLength = symbols.length;
-
-        // リールの初期化
-        for (let i = 0; i < 3; i++) {
-            const reel = document.getElementById(`symbols${i + 1}`);
-            const reelSymbols = [...symbols, ...symbols];
-            for (let j = 0; j < reelSymbols.length; j++) {
-                const symbol = document.createElement('div');
-                symbol.className = 'symbol';
-                symbol.textContent = reelSymbols[j];
-                reel.appendChild(symbol);
-            }
-        }
-
-        document.getElementById('startLever').addEventListener('click', () => {
-            spinning.fill(true);
-            startSpin(0);
-            startSpin(1);
-            startSpin(2);
-        });
-
-        document.getElementById('stopButton1').addEventListener('click', () => stopSpin(0));
-        document.getElementById('stopButton2').addEventListener('click', () => stopSpin(1));
-        document.getElementById('stopButton3').addEventListener('click', () => stopSpin(2));
-
-        function startSpin(reelIndex) {
-            const reel = document.getElementById(`symbols${reelIndex + 1}`);
-            reel.style.transition = "none";
-            reel.style.top = "0px";
-            spin(reelIndex);
-        }
-
-        function spin(reelIndex) {
-            if (spinning[reelIndex]) {
-                const reel = document.getElementById(`symbols${reelIndex + 1}`);
-                let top = parseInt(reel.style.top || "0");
-                top -= symbolHeight;
-                if (top <= -symbolHeight * reelLength) {
-                    top = 0;
-                }
-                reel.style.top = `${top}px`;
-                setTimeout(() => spin(reelIndex), 50);
-            }
-        }
-
-        function stopSpin(reelIndex) {
-            spinning[reelIndex] = false;
-            const reel = document.getElementById(`symbols${reelIndex + 1}`);
-            const top = parseInt(reel.style.top);
-            const stopPosition = Math.abs(top) % symbolHeight;
-            reel.style.transition = "top 0.3s ease-out";
-            reel.style.top = `${top - stopPosition}px`;
-        }
-    </script>
+    <div class="bottom-decorations">
+        <div class="coin-animation">
+            <div class="coin">💰</div>
+            <div class="coin">💰</div>
+            <div class="coin">💰</div>
+        </div>
+        <div class="star-animation">
+            <span class="star">⭐</span>
+            <span class="star">✨</span>
+            <span class="star">🌟</span>
+        </div>
+    </div>
 </body>
 </html>
-
-
