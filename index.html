@@ -55,6 +55,7 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         .reel-container {
             display: flex;
@@ -247,5 +248,64 @@
             <span class="star">🌟</span>
         </div>
     </div>
+    <script>
+        const symbols = ["🍒", "🍋", "🍊", "🍉", "🍇", "🍓", "🔔", "💎"];
+        const spinning = [false, false, false];
+        const symbolHeight = 80;
+        const reelLength = symbols.length;
+
+        // リールの初期化
+        for (let i = 0; i < 3; i++) {
+            const reel = document.getElementById(`symbols${i + 1}`);
+            const reelSymbols = [...symbols, ...symbols];
+            for (let j = 0; j < reelSymbols.length; j++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'symbol';
+                symbol.textContent = reelSymbols[j];
+                reel.appendChild(symbol);
+            }
+        }
+
+        document.getElementById('startLever').addEventListener('click', () => {
+            spinning.fill(true);
+            startSpin(0);
+            startSpin(1);
+            startSpin(2);
+        });
+
+        document.getElementById('stopButton1').addEventListener('click', () => stopSpin(0));
+        document.getElementById('stopButton2').addEventListener('click', () => stopSpin(1));
+        document.getElementById('stopButton3').addEventListener('click', () => stopSpin(2));
+
+        function startSpin(reelIndex) {
+            const reel = document.getElementById(`symbols${reelIndex + 1}`);
+            reel.style.transition = "none";
+            reel.style.top = "0px";
+            spin(reelIndex);
+        }
+
+        function spin(reelIndex) {
+            if (spinning[reelIndex]) {
+                const reel = document.getElementById(`symbols${reelIndex + 1}`);
+                let top = parseInt(reel.style.top || "0");
+                top -= symbolHeight;
+                if (top <= -symbolHeight * reelLength) {
+                    top = 0;
+                }
+                reel.style.top = `${top}px`;
+                setTimeout(() => spin(reelIndex), 50);
+            }
+        }
+
+        function stopSpin(reelIndex) {
+            spinning[reelIndex] = false;
+            const reel = document.getElementById(`symbols${reelIndex + 1}`);
+            const top = parseInt(reel.style.top);
+            const stopPosition = Math.abs(top) % symbolHeight;
+            reel.style.transition = "top 0.3s ease-out";
+            reel.style.top = `${top - stopPosition}px`;
+        }
+    </script>
 </body>
 </html>
+
